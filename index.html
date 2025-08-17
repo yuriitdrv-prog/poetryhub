@@ -1,93 +1,93 @@
-!DOCTYPE html
-html lang=ru
-head
-    meta charset=UTF-8
-    meta name=viewport content=width=device-width, initial-scale=1.0
-    titlePoetryHub - Мини-соцсеть для писателейtitle
-    !-- Tailwind CSS из CDN для простого и красивого дизайна --
-    script src=httpscdn.tailwindcss.comscript
-    !-- Подключение шрифта Inter от Google Fonts --
-    link href=httpsfonts.googleapis.comcss2family=Interwght@400;700&display=swap rel=stylesheet
-    style
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PoetryHub - Мини-соцсеть для писателей</title>
+    <!-- Tailwind CSS из CDN для простого и красивого дизайна -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Подключение шрифта Inter от Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
         body {
-            font-family 'Inter', sans-serif;
-            background-color #0d0d0d;
-            color #f0f0f0;
+            font-family: 'Inter', sans-serif;
+            background-color: #0d0d0d;
+            color: #f0f0f0;
         }
-    style
-head
-body class=bg-gray-900 text-gray-200 p-4 smp-8
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200 p-4 sm:p-8">
 
-    div class=max-w-4xl mx-auto
+    <div class="max-w-4xl mx-auto">
         
-        !-- Header --
-        header class=text-center mb-8
-            h1 class=text-4xl font-extrabold text-yellow-400PoetryHubh1
-            p class=mt-2 text-lg italic text-gray-400Мини-соцсеть для писателейp
-        header
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-extrabold text-yellow-400">PoetryHub</h1>
+            <p class="mt-2 text-lg italic text-gray-400">Мини-соцсеть для писателей</p>
+        </header>
 
-        !-- Main Content Area --
-        main class=grid grid-cols-1 mdgrid-cols-3 gap-6
+        <!-- Main Content Area -->
+        <main class="grid grid-cols-1 md:grid-cols-3 gap-6">
             
-            !-- Sidebar  Profile Section --
-            aside class=mdcol-span-1 bg-gray-800 p-6 rounded-xl shadow-lg h-fit mdsticky mdtop-4
-                div class=text-center mb-4
-                    div class=w-24 h-24 rounded-full bg-gray-700 mx-auto flex items-center justify-center mb-2
-                        span class=text-5xl✍️span
-                    div
-                    h2 id=profile-name class=text-xl font-bold text-yellow-400Загрузка...h2
-                    p class=text-sm text-gray-400 break-all mt-1ID span id=user-id...spanp
-                div
+            <!-- Sidebar / Profile Section -->
+            <aside class="md:col-span-1 bg-gray-800 p-6 rounded-xl shadow-lg h-fit md:sticky md:top-4">
+                <div class="text-center mb-4">
+                    <div class="w-24 h-24 rounded-full bg-gray-700 mx-auto flex items-center justify-center mb-2">
+                        <span class="text-5xl">✍️</span>
+                    </div>
+                    <h2 id="profile-name" class="text-xl font-bold text-yellow-400">Загрузка...</h2>
+                    <p class="text-sm text-gray-400 break-all mt-1">ID: <span id="user-id">...</span></p>
+                </div>
 
-                !-- Profile Edit Form --
-                form id=profile-form class=space-y-4
-                    label for=profile-input class=sr-onlyВаше имяlabel
-                    input type=text id=profile-input placeholder=Ваше имя 
-                           class=w-full p-2 border border-gray-600 rounded-lg bg-gray-700 text-white focusoutline-none focusring-2 focusring-yellow-500 
-                    button type=submit 
-                            class=w-full p-2 rounded-lg font-bold text-gray-900 transition-colors duration-300 bg-yellow-400 hoverbg-yellow-500
+                <!-- Profile Edit Form -->
+                <form id="profile-form" class="space-y-4">
+                    <label for="profile-input" class="sr-only">Ваше имя</label>
+                    <input type="text" id="profile-input" placeholder="Ваше имя" 
+                           class="w-full p-2 border border-gray-600 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500" />
+                    <button type="submit" 
+                            class="w-full p-2 rounded-lg font-bold text-gray-900 transition-colors duration-300 bg-yellow-400 hover:bg-yellow-500">
                         Сохранить имя
-                    button
-                form
-            aside
+                    </button>
+                </form>
+            </aside>
 
-            !-- Main Feed  Posts Section --
-            div class=mdcol-span-2 space-y-6
+            <!-- Main Feed / Posts Section -->
+            <div class="md:col-span-2 space-y-6">
                 
-                !-- New Post Form --
-                div class=bg-gray-800 p-6 rounded-xl shadow-lg
-                    h3 class=text-2xl font-semibold mb-4 text-yellow-400Написать новый постh3
-                    form id=post-form
-                        textarea id=post-input
-                                class=w-full h-32 p-2 mb-4 border border-gray-600 rounded-lg bg-gray-700 text-white focusoutline-none focusring-2 focusring-yellow-500 resize-none
-                                placeholder=Пишите здесь свою поэзию или прозу...
-                        textarea
-                        button type=submit
-                                class=w-full p-2 rounded-lg font-bold text-gray-900 transition-colors duration-300 bg-yellow-400 hoverbg-yellow-500
+                <!-- New Post Form -->
+                <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold mb-4 text-yellow-400">Написать новый пост</h3>
+                    <form id="post-form">
+                        <textarea id="post-input"
+                                class="w-full h-32 p-2 mb-4 border border-gray-600 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500 resize-none"
+                                placeholder="Пишите здесь свою поэзию или прозу..."
+                        ></textarea>
+                        <button type="submit"
+                                class="w-full p-2 rounded-lg font-bold text-gray-900 transition-colors duration-300 bg-yellow-400 hover:bg-yellow-500">
                             Опубликовать
-                        button
-                    form
-                div
+                        </button>
+                    </form>
+                </div>
                 
-                !-- Posts List --
-                div id=posts-container class=space-y-4
-                    !-- Posts will be dynamically added here --
-                    p class=text-center text-gray-500 italic mt-8
+                <!-- Posts List -->
+                <div id="posts-container" class="space-y-4">
+                    <!-- Posts will be dynamically added here -->
+                    <p class="text-center text-gray-500 italic mt-8">
                         Посты загружаются...
-                    p
-                div
-            div
+                    </p>
+                </div>
+            </div>
 
-        main
-    div
+        </main>
+    </div>
 
-    !-- Firebase SDKs --
-    script type=module
-        import { initializeApp } from httpswww.gstatic.comfirebasejs11.6.1firebase-app.js;
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from httpswww.gstatic.comfirebasejs11.6.1firebase-auth.js;
-        import { getFirestore, doc, setDoc, addDoc, collection, onSnapshot, query, serverTimestamp } from httpswww.gstatic.comfirebasejs11.6.1firebase-firestore.js;
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, addDoc, collection, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-         DOM elements
+        // DOM elements
         const profileForm = document.getElementById('profile-form');
         const profileInput = document.getElementById('profile-input');
         const profileNameEl = document.getElementById('profile-name');
@@ -102,156 +102,156 @@ body class=bg-gray-900 text-gray-200 p-4 smp-8
         let profileName = 'Новый автор';
         let isFirebaseReady = false;
 
-         Function to initialize Firebase
+        // Function to initialize Firebase
         async function initializeFirebase() {
             try {
-                 Global variables for Firebase config are provided by the canvas environment
-                const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined'  __firebase_config  '{}');
-                const appId = typeof __app_id !== 'undefined'  __app_id  'default-app-id';
+                // Global variables for Firebase config are provided by the canvas environment
+                const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+                const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
 
-                 Initialize Firebase app
+                // Initialize Firebase app
                 const app = initializeApp(firebaseConfig);
                 db = getFirestore(app);
                 auth = getAuth(app);
                 
-                 Sign in with custom token or anonymously
+                // Sign in with custom token or anonymously
                 if (typeof __initial_auth_token !== 'undefined') {
                     await signInWithCustomToken(auth, __initial_auth_token);
                 } else {
                     await signInAnonymously(auth);
                 }
 
-                 Listen for auth state changes
-                onAuthStateChanged(auth, (user) = {
+                // Listen for auth state changes
+                onAuthStateChanged(auth, (user) => {
                     if (user) {
                         userId = user.uid;
                         userIdEl.textContent = userId;
                         isFirebaseReady = true;
                         
-                         Load user profile and posts after authentication
+                        // Load user profile and posts after authentication
                         loadProfile();
                         loadPosts();
                     } else {
-                         Handle user signed out
+                        // Handle user signed out
                         userId = null;
-                        userIdEl.textContent = 'NA';
+                        userIdEl.textContent = 'N/A';
                     }
                 });
 
             } catch (error) {
-                console.error(Error initializing Firebase, error);
+                console.error("Error initializing Firebase:", error);
             }
         }
 
-         Function to load user profile
+        // Function to load user profile
         function loadProfile() {
-            if (!db  !userId) return;
-            const profileDocRef = doc(db, `artifacts${__app_id}users${userId}private-dataprofile`);
+            if (!db || !userId) return;
+            const profileDocRef = doc(db, `artifacts/${__app_id}/users/${userId}/private-data/profile`);
             
-            onSnapshot(profileDocRef, (docSnap) = {
+            onSnapshot(profileDocRef, (docSnap) => {
                 if (docSnap.exists()) {
-                    profileName = docSnap.data().name  'Неизвестный автор';
+                    profileName = docSnap.data().name || 'Неизвестный автор';
                     profileNameEl.textContent = profileName;
                     profileInput.value = profileName;
                 } else {
-                     Create default profile if it doesn't exist
+                    // Create default profile if it doesn't exist
                     profileNameEl.textContent = 'Новый автор';
                     profileInput.value = 'Новый автор';
-                    setDoc(profileDocRef, { name 'Новый автор' });
+                    setDoc(profileDocRef, { name: 'Новый автор' });
                 }
-            }, (error) = {
-                console.error(Error fetching profile, error);
+            }, (error) => {
+                console.error("Error fetching profile:", error);
             });
         }
 
-         Function to load posts in real-time
+        // Function to load posts in real-time
         function loadPosts() {
             if (!db) return;
-            const postsCollectionRef = collection(db, `artifacts${__app_id}publicdataposts`);
+            const postsCollectionRef = collection(db, `artifacts/${__app_id}/public/data/posts`);
             const q = query(postsCollectionRef);
 
-            onSnapshot(q, (querySnapshot) = {
-                postsContainer.innerHTML = '';  Clear existing posts
+            onSnapshot(q, (querySnapshot) => {
+                postsContainer.innerHTML = ''; // Clear existing posts
                 
                 if (querySnapshot.empty) {
                     postsContainer.innerHTML = `
-                        p class=text-center text-gray-500 italic mt-8
+                        <p class="text-center text-gray-500 italic mt-8">
                             Пока что нет ни одного поста. Будьте первым!
-                        p
+                        </p>
                     `;
                     return;
                 }
 
                 const posts = [];
-                querySnapshot.forEach((doc) = {
-                    posts.push({ id doc.id, ...doc.data() });
+                querySnapshot.forEach((doc) => {
+                    posts.push({ id: doc.id, ...doc.data() });
                 });
 
-                 Sort posts by creation time (newest first)
-                posts.sort((a, b) = b.createdAt.seconds - a.createdAt.seconds);
+                // Sort posts by creation time (newest first)
+                posts.sort((a, b) => b.createdAt?.seconds - a.createdAt?.seconds);
 
-                posts.forEach(post = {
+                posts.forEach(post => {
                     const postElement = document.createElement('div');
                     postElement.classList.add('bg-gray-800', 'p-6', 'rounded-xl', 'shadow-lg');
                     
-                    const postDate = post.createdAt  new Date(post.createdAt.seconds  1000).toLocaleDateString()  'NA';
+                    const postDate = post.createdAt ? new Date(post.createdAt.seconds * 1000).toLocaleDateString() : 'N/A';
                     
                     postElement.innerHTML = `
-                        div class=flex items-center space-x-3 mb-2
-                            span class=text-lg font-bold text-yellow-400${post.authorName  'Неизвестный автор'}span
-                            span class=text-sm text-gray-500${postDate}span
-                        div
-                        p class=text-gray-300 whitespace-pre-wrap${post.content}p
+                        <div class="flex items-center space-x-3 mb-2">
+                            <span class="text-lg font-bold text-yellow-400">${post.authorName || 'Неизвестный автор'}</span>
+                            <span class="text-sm text-gray-500">${postDate}</span>
+                        </div>
+                        <p class="text-gray-300 whitespace-pre-wrap">${post.content}</p>
                     `;
                     postsContainer.appendChild(postElement);
                 });
-            }, (error) = {
-                console.error(Error fetching posts, error);
+            }, (error) => {
+                console.error("Error fetching posts:", error);
             });
         }
 
-         Event listener for profile form submission
-        profileForm.addEventListener('submit', async (e) = {
+        // Event listener for profile form submission
+        profileForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!db  !userId) return;
+            if (!db || !userId) return;
             
             const newName = profileInput.value.trim();
             if (newName === '') return;
 
-            const profileDocRef = doc(db, `artifacts${__app_id}users${userId}private-dataprofile`);
+            const profileDocRef = doc(db, `artifacts/${__app_id}/users/${userId}/private-data/profile`);
             try {
-                await setDoc(profileDocRef, { name newName }, { merge true });
+                await setDoc(profileDocRef, { name: newName }, { merge: true });
             } catch (error) {
-                console.error(Error updating profile, error);
+                console.error("Error updating profile:", error);
             }
         });
 
-         Event listener for new post form submission
-        postForm.addEventListener('submit', async (e) = {
+        // Event listener for new post form submission
+        postForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!db  !userId  !isFirebaseReady) return;
+            if (!db || !userId || !isFirebaseReady) return;
             
             const postContent = postInput.value.trim();
             if (postContent === '') return;
 
-            const postsCollectionRef = collection(db, `artifacts${__app_id}publicdataposts`);
+            const postsCollectionRef = collection(db, `artifacts/${__app_id}/public/data/posts`);
             
             try {
                 await addDoc(postsCollectionRef, {
-                    authorId userId,
-                    authorName profileName,
-                    content postContent,
-                    createdAt serverTimestamp()
+                    authorId: userId,
+                    authorName: profileName,
+                    content: postContent,
+                    createdAt: serverTimestamp()
                 });
-                postInput.value = '';  Clear input field
+                postInput.value = ''; // Clear input field
             } catch (error) {
-                console.error(Error adding post, error);
+                console.error("Error adding post:", error);
             }
         });
 
-         Start the application
+        // Start the application
         window.onload = initializeFirebase;
-    script
+    </script>
 
-body
-html
+</body>
+</html>
