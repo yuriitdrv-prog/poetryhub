@@ -128,35 +128,29 @@
         // Function to initialize Firebase
         async function initializeFirebase() {
             try {
-                // Use the user's provided config if available, otherwise use the global one (for canvas env)
-                const firebaseConfig = Object.keys(myFirebaseConfig).length > 0 ? myFirebaseConfig : JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-                const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-
-                // Initialize Firebase app
-                const app = initializeApp(firebaseConfig);
+                // Инициализация приложения с вашей конфигурацией
+                const app = initializeApp(myFirebaseConfig);
                 db = getFirestore(app);
                 auth = getAuth(app);
                 analytics = getAnalytics(app);
                 
-                // Sign in with custom token (for canvas) or anonymously (for gh pages)
-                if (typeof __initial_auth_token !== 'undefined') {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
+                // Вход анонимного пользователя. Это важно, потому что без этого
+                // нельзя будет записывать данные в базу, если не настроены
+                // правила безопасности на публичный доступ.
+                await signInAnonymously(auth);
 
-                // Listen for auth state changes
+                // Отслеживаем изменения в состоянии аутентификации.
                 onAuthStateChanged(auth, (user) => {
                     if (user) {
                         userId = user.uid;
                         userIdEl.textContent = userId;
                         isFirebaseReady = true;
                         
-                        // Load user profile and posts after authentication
-                        loadProfile(appId);
-                        loadPosts(appId);
+                        // Загружаем профиль и посты только после успешной аутентификации
+                        loadProfile(myFirebaseConfig.appId);
+                        loadPosts(myFirebaseConfig.appId);
                     } else {
-                        // Handle user signed out
+                        // Обработка выхода пользователя
                         userId = null;
                         userIdEl.textContent = 'N/A';
                     }
@@ -242,7 +236,7 @@
             const newName = profileInput.value.trim();
             if (newName === '') return;
             
-            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+            const appId = myFirebaseConfig.appId;
             const profileDocRef = doc(db, `artifacts/${appId}/users/${userId}/private-data/profile`);
             try {
                 await setDoc(profileDocRef, { name: newName }, { merge: true });
@@ -259,7 +253,7 @@
             const postContent = postInput.value.trim();
             if (postContent === '') return;
             
-            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+            const appId = myFirebaseConfig.appId;
             const postsCollectionRef = collection(db, `artifacts/${appId}/public/data/posts`);
             
             try {
