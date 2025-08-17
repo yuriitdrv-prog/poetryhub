@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PoetryHub - Мини-соцсеть для писателей</title>
-    <!-- Tailwind CSS из CDN для простого и красивого дизайна -->
+    <!-- Tailwind CSS from CDN for simple and beautiful design -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Подключение шрифта Inter от Google Fonts -->
+    <!-- Inter font from Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -84,10 +84,22 @@
     <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, addDoc, collection, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js"; // <--- Add this line!
-re.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, addDoc, collection, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
+
+        // =========================================================================
+        // YOUR FIREBASE CONFIGURATION OBJECT
+        // =========================================================================
+        const myFirebaseConfig = {
+            apiKey: "AIzaSyCR6iRaSfdzJAi2FKrpTFUDzvpt6BEOg_o",
+            authDomain: "poetryhub-58bcf.firebaseapp.com",
+            projectId: "poetryhub-58bcf",
+            storageBucket: "poetryhub-58bcf.firebasestorage.app",
+            messagingSenderId: "1049286597978",
+            appId: "1:1049286597978:web:5d6c02448e9fd46cf66763",
+            measurementId: "G-63SLNPTW6Z"
+        };
 
         // DOM elements
         const profileForm = document.getElementById('profile-form');
@@ -100,6 +112,7 @@ re.js";
         
         let db;
         let auth;
+        let analytics;
         let userId;
         let profileName = 'Новый автор';
         let isFirebaseReady = false;
@@ -107,20 +120,17 @@ re.js";
         // Function to initialize Firebase
         async function initializeFirebase() {
             try {
-                // Global variables for Firebase config are provided by the canvas environment
-               // ... inside initializeFirebase()
-const app = initializeApp(firebaseConfig);
-db = getFirestore(app);
-auth = getAuth(app);
-const analytics = getAnalytics(app); // <--- Add this line!
-// ... rest of your code
+                // Use the user's provided config if available, otherwise use the global one (for canvas env)
+                const firebaseConfig = Object.keys(myFirebaseConfig).length > 0 ? myFirebaseConfig : JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+                const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
 
                 // Initialize Firebase app
                 const app = initializeApp(firebaseConfig);
                 db = getFirestore(app);
                 auth = getAuth(app);
+                analytics = getAnalytics(app);
                 
-                // Sign in with custom token or anonymously
+                // Sign in with custom token (for canvas) or anonymously (for gh pages)
                 if (typeof __initial_auth_token !== 'undefined') {
                     await signInWithCustomToken(auth, __initial_auth_token);
                 } else {
@@ -135,8 +145,8 @@ const analytics = getAnalytics(app); // <--- Add this line!
                         isFirebaseReady = true;
                         
                         // Load user profile and posts after authentication
-                        loadProfile();
-                        loadPosts();
+                        loadProfile(appId);
+                        loadPosts(appId);
                     } else {
                         // Handle user signed out
                         userId = null;
@@ -150,9 +160,9 @@ const analytics = getAnalytics(app); // <--- Add this line!
         }
 
         // Function to load user profile
-        function loadProfile() {
+        function loadProfile(appId) {
             if (!db || !userId) return;
-            const profileDocRef = doc(db, `artifacts/${__app_id}/users/${userId}/private-data/profile`);
+            const profileDocRef = doc(db, `artifacts/${appId}/users/${userId}/private-data/profile`);
             
             onSnapshot(profileDocRef, (docSnap) => {
                 if (docSnap.exists()) {
@@ -171,9 +181,9 @@ const analytics = getAnalytics(app); // <--- Add this line!
         }
 
         // Function to load posts in real-time
-        function loadPosts() {
+        function loadPosts(appId) {
             if (!db) return;
-            const postsCollectionRef = collection(db, `artifacts/${__app_id}/public/data/posts`);
+            const postsCollectionRef = collection(db, `artifacts/${appId}/public/data/posts`);
             const q = query(postsCollectionRef);
 
             onSnapshot(q, (querySnapshot) => {
@@ -223,8 +233,9 @@ const analytics = getAnalytics(app); // <--- Add this line!
             
             const newName = profileInput.value.trim();
             if (newName === '') return;
-
-            const profileDocRef = doc(db, `artifacts/${__app_id}/users/${userId}/private-data/profile`);
+            
+            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+            const profileDocRef = doc(db, `artifacts/${appId}/users/${userId}/private-data/profile`);
             try {
                 await setDoc(profileDocRef, { name: newName }, { merge: true });
             } catch (error) {
@@ -239,8 +250,9 @@ const analytics = getAnalytics(app); // <--- Add this line!
             
             const postContent = postInput.value.trim();
             if (postContent === '') return;
-
-            const postsCollectionRef = collection(db, `artifacts/${__app_id}/public/data/posts`);
+            
+            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+            const postsCollectionRef = collection(db, `artifacts/${appId}/public/data/posts`);
             
             try {
                 await addDoc(postsCollectionRef, {
@@ -250,6 +262,13 @@ const analytics = getAnalytics(app); // <--- Add this line!
                     createdAt: serverTimestamp()
                 });
                 postInput.value = ''; // Clear input field
+
+                // Log the post event!
+                logEvent(analytics, 'new_post_published', {
+                    author_id: userId,
+                    post_length: postContent.length
+                });
+
             } catch (error) {
                 console.error("Error adding post:", error);
             }
