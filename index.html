@@ -1,286 +1,76 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5072213699293607"
-     crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PoetryHub - Мини-соцсеть для писателей</title>
-    <!-- Tailwind CSS from CDN for simple and beautiful design -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Inter font from Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <title>PoetryHub | yuriitdrv Stream Tools</title>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0d0d0d;
-            color: #f0f0f0;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #1a1a1a; color: #eee; margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        #sidebar { width: 350px; background: #252525; padding: 20px; display: flex; flex-direction: column; border-right: 1px solid #333; }
+        #main-content { flex-grow: 1; display: flex; flex-direction: column; }
+        
+        h1 { font-size: 1.5rem; color: #e67e22; margin-bottom: 5px; }
+        .channel-name { font-size: 0.9rem; color: #888; margin-bottom: 20px; }
+        
+        input, button { width: 100%; padding: 10px; margin: 5px 0; border-radius: 4px; border: none; }
+        input { background: #333; color: white; }
+        button { background: #e67e22; color: white; font-weight: bold; cursor: pointer; }
+        button:hover { background: #d35400; }
+
+        #chat-container { flex-grow: 1; background: #000; }
+        iframe { width: 100%; height: 100%; border: none; }
+
+        .poem-box { background: #333; padding: 15px; margin-top: 20px; border-radius: 8px; font-style: italic; font-size: 0.9rem; border-left: 4px solid #e67e22; }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-200 p-4 sm:p-8">
+<body>
 
-    <div class="max-w-4xl mx-auto">
-        
-        <!-- Header -->
-        <header class="text-center mb-8">
-            <h1 class="text-4xl font-extrabold text-yellow-400">PoetryHub</h1>
-            <p class="mt-2 text-lg italic text-gray-400">Мини-соцсеть для писателей</p>
-        </header>
+<div id="sidebar">
+    <h1>PoetryHub</h1>
+    <div class="channel-name">Stream: yuriitdrv</div>
+    
+    <label>Current Video ID:</label>
+    <input type="text" id="videoId" placeholder="Enter YouTube Video ID...">
+    <button onclick="loadChat()">Connect Chat</button>
 
-        <!-- Main Content Area -->
-        <main class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
-            <!-- Sidebar / Profile Section -->
-            <aside class="md:col-span-1 bg-gray-800 p-6 rounded-xl shadow-lg h-fit md:sticky md:top-4">
-                <div class="text-center mb-4">
-                    <div class="w-24 h-24 rounded-full bg-gray-700 mx-auto flex items-center justify-center mb-2">
-                        <span class="text-5xl">✍️</span>
-                    </div>
-                    <h2 id="profile-name" class="text-xl font-bold text-yellow-400">Загрузка...</h2>
-                    <p class="text-sm text-gray-400 break-all mt-1">ID: <span id="user-id">...</span></p>
-                </div>
+    <hr style="width:100%; border: 0.5px solid #444; margin: 20px 0;">
 
-                <!-- Profile Edit Form -->
-                <form id="profile-form" class="space-y-4">
-                    <label for="profile-input" class="sr-only">Ваше имя</label>
-                    <input type="text" id="profile-input" placeholder="Ваше имя" 
-                           class="w-full p-2 border border-gray-600 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500" />
-                    <button type="submit" 
-                            class="w-full p-2 rounded-lg font-bold text-gray-900 transition-colors duration-300 bg-yellow-400 hover:bg-yellow-500">
-                        Сохранить имя
-                    </button>
-                </form>
-            </aside>
+    <h3>Stream Poetry</h3>
+    <p style="font-size: 0.8rem; color: #aaa;">Click to generate a poem to read or paste into chat:</p>
+    <div class="poem-box" id="poem-display">"Press the button to get a random verse..."</div>
+    <button onclick="generatePoem()" style="background: #2980b9;">New Poem</button>
+</div>
 
-            <!-- Main Feed / Posts Section -->
-            <div class="md:col-span-2 space-y-6">
-                
-                <!-- New Post Form -->
-                <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
-                    <h3 class="text-2xl font-semibold mb-4 text-yellow-400">Написать новый пост</h3>
-                    <form id="post-form">
-                        <textarea id="post-input"
-                                class="w-full h-32 p-2 mb-4 border border-gray-600 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500 resize-none"
-                                placeholder="Пишите здесь свою поэзию или прозу..."
-                        ></textarea>
-                        <button type="submit"
-                                class="w-full p-2 rounded-lg font-bold text-gray-900 transition-colors duration-300 bg-yellow-400 hover:bg-yellow-500">
-                            Опубликовать
-                        </button>
-                    </form>
-                </div>
-                
-                <!-- Posts List -->
-                <div id="posts-container" class="space-y-4">
-                    <!-- Posts will be dynamically added here -->
-                    <p class="text-center text-gray-500 italic mt-8">
-                        Посты загружаются...
-                    </p>
-                </div>
-            </div>
-
-        </main>
+<div id="main-content">
+    <div id="chat-container">
+        <div style="padding: 50px; text-align: center; color: #555;">
+            Enter your YouTube Video ID and click "Connect Chat" to start.
+        </div>
     </div>
+</div>
 
-    <!-- Firebase SDKs -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, addDoc, collection, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
-
-        // =========================================================================
-        // ВАШ ОБЪЕКТ КОНФИГУРАЦИИ FIREBASE
-        //
-        // Внимание: GitHub мог выдать предупреждение о "секретном ключе"
-        // (secret key). Это ожидаемо, так как ключ виден в исходном коде.
-        // Для клиентских веб-приложений Firebase этот ключ не является секретом
-        // (как, например, пароль). Он нужен только для идентификации вашего проекта.
-        // Настоящая безопасность обеспечивается правилами Firestore Database.
-        // Убедитесь, что вы настроили их в консоли Firebase, чтобы никто не мог
-        // изменять чужие посты.
-        // =========================================================================
-        const myFirebaseConfig = {
-            apiKey: "AIzaSyCR6iRaSfdzJAi2FKrpTFUDzvpt6BEOg_o",
-            authDomain: "poetryhub-58bcf.firebaseapp.com",
-            projectId: "poetryhub-58bcf",
-            storageBucket: "poetryhub-58bcf.firebasestorage.app",
-            messagingSenderId: "1049286597978",
-            appId: "1:1049286597978:web:5d6c02448e9fd46cf66763",
-            measurementId: "G-63SLNPTW6Z"
-        };
-
-        // DOM elements
-        const profileForm = document.getElementById('profile-form');
-        const profileInput = document.getElementById('profile-input');
-        const profileNameEl = document.getElementById('profile-name');
-        const userIdEl = document.getElementById('user-id');
-        const postForm = document.getElementById('post-form');
-        const postInput = document.getElementById('post-input');
-        const postsContainer = document.getElementById('posts-container');
+<script>
+    function loadChat() {
+        const vId = document.getElementById('videoId').value;
+        const domain = "poetryhub.xyz"; // Your domain
+        if(!vId) { alert("Please enter a Video ID"); return; }
         
-        let db;
-        let auth;
-        let analytics;
-        let userId;
-        let profileName = 'Новый автор';
-        let isFirebaseReady = false;
+        const chatUrl = `https://www.youtube.com/live_chat?v=${vId}&embed_domain=${domain}`;
+        document.getElementById('chat-container').innerHTML = `<iframe src="${chatUrl}"></iframe>`;
+    }
 
-        // Function to initialize Firebase
-        async function initializeFirebase() {
-            try {
-                // Инициализация приложения с вашей конфигурацией
-                const app = initializeApp(myFirebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
-                analytics = getAnalytics(app);
-                
-                // Вход анонимного пользователя. Это важно, потому что без этого
-                // нельзя будет записывать данные в базу, если не настроены
-                // правила безопасности на публичный доступ.
-                await signInAnonymously(auth);
+    const poems = [
+        "The stars are but a dream away, in the quiet of the night.",
+        "A single leaf falls, yet the forest remains unchanged.",
+        "Words are the arrows, but silence is the bow.",
+        "The ocean hums a song that only the moon understands."
+    ];
 
-                // Отслеживаем изменения в состоянии аутентификации.
-                onAuthStateChanged(auth, (user) => {
-                    if (user) {
-                        userId = user.uid;
-                        userIdEl.textContent = userId;
-                        isFirebaseReady = true;
-                        
-                        // Загружаем профиль и посты только после успешной аутентификации
-                        loadProfile(myFirebaseConfig.appId);
-                        loadPosts(myFirebaseConfig.appId);
-                    } else {
-                        // Обработка выхода пользователя
-                        userId = null;
-                        userIdEl.textContent = 'N/A';
-                    }
-                });
-
-            } catch (error) {
-                console.error("Error initializing Firebase:", error);
-            }
-        }
-
-        // Function to load user profile
-        function loadProfile(appId) {
-            if (!db || !userId) return;
-            const profileDocRef = doc(db, `artifacts/${appId}/users/${userId}/private-data/profile`);
-            
-            onSnapshot(profileDocRef, (docSnap) => {
-                if (docSnap.exists()) {
-                    profileName = docSnap.data().name || 'Неизвестный автор';
-                    profileNameEl.textContent = profileName;
-                    profileInput.value = profileName;
-                } else {
-                    // Create default profile if it doesn't exist
-                    profileNameEl.textContent = 'Новый автор';
-                    profileInput.value = 'Новый автор';
-                    setDoc(profileDocRef, { name: 'Новый автор' });
-                }
-            }, (error) => {
-                console.error("Error fetching profile:", error);
-            });
-        }
-
-        // Function to load posts in real-time
-        function loadPosts(appId) {
-            if (!db) return;
-            const postsCollectionRef = collection(db, `artifacts/${appId}/public/data/posts`);
-            const q = query(postsCollectionRef);
-
-            onSnapshot(q, (querySnapshot) => {
-                postsContainer.innerHTML = ''; // Clear existing posts
-                
-                if (querySnapshot.empty) {
-                    postsContainer.innerHTML = `
-                        <p class="text-center text-gray-500 italic mt-8">
-                            Пока что нет ни одного поста. Будьте первым!
-                        </p>
-                    `;
-                    return;
-                }
-
-                const posts = [];
-                querySnapshot.forEach((doc) => {
-                    posts.push({ id: doc.id, ...doc.data() });
-                });
-
-                // Sort posts by creation time (newest first)
-                posts.sort((a, b) => b.createdAt?.seconds - a.createdAt?.seconds);
-
-                posts.forEach(post => {
-                    const postElement = document.createElement('div');
-                    postElement.classList.add('bg-gray-800', 'p-6', 'rounded-xl', 'shadow-lg');
-                    
-                    const postDate = post.createdAt ? new Date(post.createdAt.seconds * 1000).toLocaleDateString() : 'N/A';
-                    
-                    postElement.innerHTML = `
-                        <div class="flex items-center space-x-3 mb-2">
-                            <span class="text-lg font-bold text-yellow-400">${post.authorName || 'Неизвестный автор'}</span>
-                            <span class="text-sm text-gray-500">${postDate}</span>
-                        </div>
-                        <p class="text-gray-300 whitespace-pre-wrap">${post.content}</p>
-                    `;
-                    postsContainer.appendChild(postElement);
-                });
-            }, (error) => {
-                console.error("Error fetching posts:", error);
-            });
-        }
-
-        // Event listener for profile form submission
-        profileForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!db || !userId) return;
-            
-            const newName = profileInput.value.trim();
-            if (newName === '') return;
-            
-            const appId = myFirebaseConfig.appId;
-            const profileDocRef = doc(db, `artifacts/${appId}/users/${userId}/private-data/profile`);
-            try {
-                await setDoc(profileDocRef, { name: newName }, { merge: true });
-            } catch (error) {
-                console.error("Error updating profile:", error);
-            }
-        });
-
-        // Event listener for new post form submission
-        postForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!db || !userId || !isFirebaseReady) return;
-            
-            const postContent = postInput.value.trim();
-            if (postContent === '') return;
-            
-            const appId = myFirebaseConfig.appId;
-            const postsCollectionRef = collection(db, `artifacts/${appId}/public/data/posts`);
-            
-            try {
-                await addDoc(postsCollectionRef, {
-                    authorId: userId,
-                    authorName: profileName,
-                    content: postContent,
-                    createdAt: serverTimestamp()
-                });
-                postInput.value = ''; // Clear input field
-
-                // Log the post event!
-                logEvent(analytics, 'new_post_published', {
-                    author_id: userId,
-                    post_length: postContent.length
-                });
-
-            } catch (error) {
-                console.error("Error adding post:", error);
-            }
-        });
-
-        // Start the application
-        window.onload = initializeFirebase;
-    </script>
+    function generatePoem() {
+        const random = poems[Math.floor(Math.random() * poems.length)];
+        document.getElementById('poem-display').innerText = `"${random}"`;
+    }
+</script>
 
 </body>
 </html>
