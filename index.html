@@ -5,71 +5,165 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PoetryHub | yuriitdrv Stream Tools</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #1a1a1a; color: #eee; margin: 0; display: flex; height: 100vh; overflow: hidden; }
-        #sidebar { width: 350px; background: #252525; padding: 20px; display: flex; flex-direction: column; border-right: 1px solid #333; }
-        #main-content { flex-grow: 1; display: flex; flex-direction: column; }
-        
-        h1 { font-size: 1.5rem; color: #e67e22; margin-bottom: 5px; }
-        .channel-name { font-size: 0.9rem; color: #888; margin-bottom: 20px; }
-        
-        input, button { width: 100%; padding: 10px; margin: 5px 0; border-radius: 4px; border: none; }
-        input { background: #333; color: white; }
-        button { background: #e67e22; color: white; font-weight: bold; cursor: pointer; }
-        button:hover { background: #d35400; }
+        /* Modern Dark Theme */
+        :root {
+            --bg-dark: #121212;
+            --panel-bg: #1e1e1e;
+            --accent: #e67e22;
+            --text: #ffffff;
+            --text-dim: #b0b0b0;
+        }
 
-        #chat-container { flex-grow: 1; background: #000; }
+        body { 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            background: var(--bg-dark); 
+            color: var(--text); 
+            margin: 0; 
+            display: flex; 
+            height: 100vh; 
+            overflow: hidden; 
+        }
+
+        /* Sidebar Styling */
+        #sidebar { 
+            width: 320px; 
+            background: var(--panel-bg); 
+            padding: 25px; 
+            display: flex; 
+            flex-direction: column; 
+            border-right: 1px solid #333;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+
+        h1 { font-size: 1.8rem; color: var(--accent); margin: 0 0 5px 0; }
+        .sub-title { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 30px; letter-spacing: 1px; }
+
+        label { font-size: 0.9rem; font-weight: bold; margin-bottom: 8px; display: block; }
+        input { 
+            width: 100%; 
+            padding: 12px; 
+            margin-bottom: 15px; 
+            border-radius: 6px; 
+            border: 1px solid #444; 
+            background: #2a2a2a; 
+            color: white; 
+            box-sizing: border-box;
+        }
+
+        button { 
+            width: 100%; 
+            padding: 12px; 
+            border-radius: 6px; 
+            border: none; 
+            background: var(--accent); 
+            color: white; 
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: transform 0.1s, background 0.2s;
+        }
+        button:hover { background: #d35400; }
+        button:active { transform: scale(0.98); }
+
+        /* Poem Section */
+        .poem-section { margin-top: auto; padding-top: 20px; border-top: 1px solid #333; }
+        .poem-box { 
+            background: #2a2a2a; 
+            padding: 15px; 
+            margin: 15px 0; 
+            border-radius: 8px; 
+            font-style: italic; 
+            font-size: 0.95rem; 
+            border-left: 4px solid var(--accent);
+            line-height: 1.5;
+        }
+
+        /* Main Content (The Chat) */
+        #main-content { flex-grow: 1; display: flex; flex-direction: column; background: #000; position: relative; }
+        #chat-container { width: 100%; height: 100%; }
         iframe { width: 100%; height: 100%; border: none; }
 
-        .poem-box { background: #333; padding: 15px; margin-top: 20px; border-radius: 8px; font-style: italic; font-size: 0.9rem; border-left: 4px solid #e67e22; }
+        .placeholder-msg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #555;
+        }
     </style>
 </head>
 <body>
 
 <div id="sidebar">
     <h1>PoetryHub</h1>
-    <div class="channel-name">Stream: yuriitdrv</div>
+    <div class="sub-title">STREAM: yuriitdrv</div>
     
-    <label>Current Video ID:</label>
-    <input type="text" id="videoId" placeholder="Enter YouTube Video ID...">
-    <button onclick="loadChat()">Connect Chat</button>
+    <label for="videoId">YouTube Link or ID</label>
+    <input type="text" id="videoId" placeholder="Paste stream URL here...">
+    <button onclick="loadChat()">CONNECT CHAT</button>
 
-    <hr style="width:100%; border: 0.5px solid #444; margin: 20px 0;">
-
-    <h3>Stream Poetry</h3>
-    <p style="font-size: 0.8rem; color: #aaa;">Click to generate a poem to read or paste into chat:</p>
-    <div class="poem-box" id="poem-display">"Press the button to get a random verse..."</div>
-    <button onclick="generatePoem()" style="background: #2980b9;">New Poem</button>
+    <div class="poem-section">
+        <h3>Poetry Prompt</h3>
+        <div class="poem-box" id="poem-display">"Press the button to generate a verse for your viewers..."</div>
+        <button onclick="generatePoem()" style="background: #2980b9;">NEW VERSE</button>
+    </div>
 </div>
 
 <div id="main-content">
     <div id="chat-container">
-        <div style="padding: 50px; text-align: center; color: #555;">
-            Enter your YouTube Video ID and click "Connect Chat" to start.
+        <div class="placeholder-msg">
+            <p>Enter your stream URL and click "Connect Chat"</p>
+            <p style="font-size: 0.8rem;">(Note: This only works on poetryhub.xyz)</p>
         </div>
     </div>
 </div>
 
 <script>
     function loadChat() {
-        const vId = document.getElementById('videoId').value;
-        const domain = "poetryhub.xyz"; // Your domain
-        if(!vId) { alert("Please enter a Video ID"); return; }
+        let input = document.getElementById('videoId').value.strip();
+        const hostName = window.location.hostname;
+        let vId = input;
+
+        // Automatically extract the ID if they paste a full URL
+        if (input.includes('v=')) {
+            vId = input.split('v=')[1].split('&')[0];
+        } else if (input.includes('live/')) {
+            vId = input.split('live/')[1].split('?')[0];
+        } else if (input.includes('be/')) {
+            vId = input.split('be/')[1].split('?')[0];
+        }
+
+        if(!vId) { 
+            alert("Please enter a valid YouTube Video ID or URL"); 
+            return; 
+        }
         
-        const chatUrl = `https://www.youtube.com/live_chat?v=${vId}&embed_domain=${domain}`;
+        // This is the magic URL that connects the chat to your domain
+        const chatUrl = `https://www.youtube.com/live_chat?v=${vId}&embed_domain=${hostName}`;
+        
         document.getElementById('chat-container').innerHTML = `<iframe src="${chatUrl}"></iframe>`;
     }
 
+    // Simple Poem Generator
     const poems = [
         "The stars are but a dream away, in the quiet of the night.",
         "A single leaf falls, yet the forest remains unchanged.",
         "Words are the arrows, but silence is the bow.",
-        "The ocean hums a song that only the moon understands."
+        "The ocean hums a song that only the moon understands.",
+        "To write is to breathe on the embers of the soul.",
+        "Ink flows where the heart fears to tread."
     ];
 
     function generatePoem() {
         const random = poems[Math.floor(Math.random() * poems.length)];
         document.getElementById('poem-display').innerText = `"${random}"`;
     }
+
+    // Helper to clean spaces
+    String.prototype.strip = function() {
+        return this.replace(/^\s+|\s+$/g, '');
+    };
 </script>
 
 </body>
